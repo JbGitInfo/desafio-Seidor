@@ -1,0 +1,494 @@
+openapi: 3.0.3
+info:
+  title: Seidor - API
+  description: Vehicle control server
+  termsOfService: http://localhost
+  contact:
+    name: João Brasil
+    email: joaovictor.brasil1992@gmail.com
+  license:
+    name: ""
+    url: http://localhost
+  version: 1.0.1
+servers:
+  - url: http://localhost:{port}/{basePath}
+    description: Development Server
+    variables:
+      port:
+        enum:
+          - "3000"
+        default: "3000"
+      basePath:
+        default: api/v1
+tags:
+  - name: Login
+  - name: Vehicles
+paths:
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Autentica na api
+      operationId: postLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+        required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          description: Usuário inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+  /vehicles:
+    get:
+      tags:
+        - Vehicles
+      summary: Return raw Vehicles
+      operationId: getVehicles
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: cor
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: marca
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: user
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: available
+          required: false
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/vehicle"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+    post:
+      tags:
+        - Vehicles
+      summary: Create raw Vehicles
+      operationId: postVehicle
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                placa:
+                  type: string
+                cor:
+                  type: string
+                marca:
+                  type: string
+                user:
+                  type: string
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+  /vehicles/{id}:
+    get:
+      tags:
+        - Vehicles
+      summary: Return raw vehicle
+      operationId: getVehicle
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/vehicle"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+    patch:
+      tags:
+        - Vehicles
+      summary: Updates raw vehicle
+      operationId: patchVehicle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                placa:
+                  type: string
+                cor:
+                  type: string
+                marca:
+                  type: string
+                user:
+                  type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+    delete:
+      tags:
+        - Vehicles
+      summary: Removes raw vehicle
+      operationId: deleteVehicle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+  /drivers:
+    get:
+      tags:
+        - Drivers
+      summary: Return raw Drivers
+      operationId: getDrivers
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: nome
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: user
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: number
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/driver"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+    post:
+      tags:
+        - Drivers
+      summary: Create raw Drivers
+      operationId: postDriver
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                user:
+                  type: string
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+  /drivers/{id}:
+    get:
+      tags:
+        - Drivers
+      summary: Return raw Driver
+      operationId: getDriver
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/driver"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+    patch:
+      tags:
+        - Drivers
+      summary: Updates raw driver
+      operationId: patchDriver
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                user:
+                  type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+    delete:
+      tags:
+        - Drivers
+      summary: Removes raw driver
+      operationId: deleteDriver
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    apiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        error:
+          type: string
+    vehicle:
+      type: object
+      properties:
+        id:
+          type: number
+        placa:
+          type: string
+        cor:
+          type: string
+        marca:
+          type: string
+        user:
+          type: string
+        createdDate:
+          type: string
+    driver:
+      type: object
+      properties:
+        id:
+          type: number
+        nome:
+          type: string
+        user:
+          type: string
+        createdDate:
+          type: string
