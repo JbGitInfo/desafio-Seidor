@@ -2,5 +2,6 @@
 
 module.exports = {
     NotFoundException: require('./notFoundException'),
-    UnauthorizedException: require('./unauthorizedException')
+    UnauthorizedException: require('./unauthorizedException'),
+    UnprocessableEntityException: require('./unprocessableEntityException')
 }

@@ -10,9 +10,7 @@ module.exports = class DriverController {
             const service = new DriverService();
             const result = await service.find(req.query);
 
-            res.set('X-Total-Count', result.totalCount);
-            res.set('X-Total-Page', result.totalPage);
-            res.status(constants.statusCode.SUCCESS.CODE).send(result.results);
+            res.status(constants.statusCode.SUCCESS.CODE).send(result);
         } catch (err) {
             controller.sendErrorResponse(res, err);
         }

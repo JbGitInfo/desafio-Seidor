@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
-const paginate = require('mongoose-paginate-v2');
 
 const schema = new mongoose.Schema({
     id: Number,
@@ -24,7 +23,6 @@ schema.plugin(autoIncrement.plugin, {
     field: 'id',
     startAt: 1
 });
-schema.plugin(paginate);
 
 const model = mongoose.model('Driver', schema);
 

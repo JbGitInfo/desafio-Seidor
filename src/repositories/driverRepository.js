@@ -7,31 +7,24 @@ module.exports = class DriverRepository {
 
     /**
      * 
-     * @param {{nome:String,user:String,page:Number,limit:Number}} params
-     * @returns {Promise<{totalCount:Number,totalPage:Number, results:[{id:Number,nome:String,user:String}]}>}
+     * @param {{nome:String,user:String}} params
+     * @returns {[{id:Number,nome:String,user:String}]}>}
      */
     async find(params) {
         const optionsFilter = {};
         if (params.nome) optionsFilter.nome = params.nome;
         if (params.user) optionsFilter.user = params.user;
 
-        const result = await this.#model.paginate(optionsFilter, {
-            page: params.page || 1,
-            limit: params.limit || 10
-        });
+        const result = await this.#model.find(optionsFilter);
 
-        return {
-            totalCount: result.totalDocs,
-            totalPage: result.totalPages,
-            results: result.docs.map(item => {
-                return {
-                    id: item.id,
-                    nome: item.nome,
-                    user: item.user,
-                    createDate: item.createDate
-                }
-            })
-        }
+        return result.map(item => {
+            return {
+                id: item.id,
+                nome: item.nome,
+                user: item.user,
+                createDate: item.createDate
+            };
+        });
     }
 
     /**
@@ -63,7 +56,7 @@ module.exports = class DriverRepository {
     /**
      * 
      * @param {Number} id 
-     *  @param {{ nome:string,user:string }} obj 
+     *  @param {{ nome:string,user:string }} obj  
      * @return {Promise<void>}
      */
     async update(id, obj) {

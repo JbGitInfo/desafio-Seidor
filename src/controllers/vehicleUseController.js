@@ -2,12 +2,13 @@
 
 const controller = require('./base');
 const constants = require('../utils/constants');
-const VehicleService = require('../services/vehicleService');
+const VehicleUseService = require('../services/vehicleUseService');
 
-module.exports = class VehicleController {
-    static async getVehicles(req, res) {
+
+module.exports = class VehicleUseController {
+    static async getVehiclesUse(req, res) {
         try {
-            const service = new VehicleService();
+            const service = new VehicleUseService();
             const result = await service.find(req.query);
 
             res.status(constants.statusCode.SUCCESS.CODE).send(result);
@@ -16,9 +17,9 @@ module.exports = class VehicleController {
         }
     }
 
-    static async postVehicle(req, res) {
+    static async postVehicleUse(req, res) {
         try {
-            const service = new VehicleService();
+            const service = new VehicleUseService();
             const result = await service.create(req.body);
 
             res.status(constants.statusCode.CREATED.CODE).send(result);
@@ -27,9 +28,9 @@ module.exports = class VehicleController {
         }
     }
 
-    static async getVehicle(req, res) {
+    static async getVehicleUse(req, res) {
         try {
-            const service = new VehicleService();
+            const service = new VehicleUseService();
             const result = await service.findByID(req.params.id, req.body);
 
             res.status(constants.statusCode.SUCCESS.CODE).send(result);
@@ -38,9 +39,9 @@ module.exports = class VehicleController {
         }
     }
 
-    static async deleteVehicle(req, res) {
+    static async deleteVehicleUse(req, res) {
         try {
-            const service = new VehicleService();
+            const service = new VehicleUseService();
             const result = await service.delete(req.params.id);
 
             res.status(constants.statusCode.SUCCESS.CODE).send(result);
@@ -49,9 +50,9 @@ module.exports = class VehicleController {
         }
     }
 
-    static async patchVehicle(req, res) {
+    static async patchVehicleUse(req, res) {
         try {
-            const service = new VehicleService();
+            const service = new VehicleUseService();
             const result = await service.update(req.params.id, req.body);
 
             res.status(constants.statusCode.SUCCESS.CODE).send(result);

@@ -12,15 +12,10 @@ module.exports = class DriverService {
     async find(params) {
         const result = await this.#driverRepo.find({
             nome: params.nome,
-            user: params.user,
-            page: params.page,
-            limit: params.limit
+            user: params.user
+
         });
-        return {
-            totalCount: result.totalCount,
-            totalPage: result.totalPage,
-            results: result.results.map(item => this._mapReturn(item))
-        }
+        return result.map(item => this._mapReturn(item))
     }
 
     async findByID(id) {
@@ -33,7 +28,7 @@ module.exports = class DriverService {
 
     async create(obj) {
         const resourceID = await this.#driverRepo.create({
-            nome: obj.placa,
+            nome: obj.nome,
             user: obj.user
         });
         return { id: resourceID };
@@ -61,8 +56,8 @@ module.exports = class DriverService {
         return {
             id: driver.id,
             nome: driver.nome,
-            user: vehicle.user,
-            createdDate: dateFormat(vehicle.createdDate, 'yyyy-mm-dd')
+            user: driver.user,
+            createdDate: dateFormat(driver.createdDate, 'yyyy-mm-dd')
         }
     }
 }

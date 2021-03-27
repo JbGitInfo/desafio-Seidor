@@ -13,15 +13,9 @@ module.exports = class VehicleService {
         const result = await this.#vehicleRepo.find({
             cor: params.cor,
             marca: params.marca,
-            user: params.user,
-            page: params.page,
-            limit: params.limit
+            user: params.user
         });
-        return {
-            totalCount: result.totalCount,
-            totalPage: result.totalPage,
-            results: result.results.map(item => this._mapReturn(item))
-        }
+        return result.map(item => this._mapReturn(item))
     }
 
     async findByID(id) {

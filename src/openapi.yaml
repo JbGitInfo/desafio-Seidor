@@ -84,21 +84,6 @@ paths:
           required: false
           schema:
             type: string
-        - in: query
-          name: page
-          required: false
-          schema:
-            type: number
-        - in: query
-          name: limit
-          required: false
-          schema:
-            type: number
-        - in: query
-          name: available
-          required: false
-          schema:
-            type: boolean
       responses:
         200:
           description: ""
@@ -283,16 +268,6 @@ paths:
           required: false
           schema:
             type: string
-        - in: query
-          name: page
-          required: false
-          schema:
-            type: number
-        - in: query
-          name: limit
-          required: false
-          schema:
-            type: number
       responses:
         200:
           description: ""
@@ -450,6 +425,215 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/apiResponse"
+  /vehiclesUse:
+    get:
+      tags:
+        - VehiclesUse
+      summary: Return raw VehicleUse
+      operationId: getVehiclesUse
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: query
+          name: idDriver
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: idVehicle
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: user
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/vehicleUse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+    post:
+      tags:
+        - VehiclesUse
+      summary: Create raw VehicleUse
+      operationId: postVehicleUse
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idDriver:
+                  type: number
+                idVehicle:
+                  type: number
+                dataInicio:
+                  type: string
+                dataFim:
+                  type: string
+                useReason:
+                  type: string
+                user:
+                  type: string
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+  /vehiclesUse/{id}:
+    get:
+      tags:
+        - VehiclesUse
+      summary: Return raw VehicleUse
+      operationId: getVehicleUse
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/vehicleUse"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+    patch:
+      tags:
+        - VehiclesUse
+      summary: Updates raw VehicleUse
+      operationId: patchVehicleUse
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idDriver:
+                  type: number
+                idVehicle:
+                  type: number
+                dataInicio:
+                  type: string
+                dataFim:
+                  type: string
+                useReason:
+                  type: string
+                user:
+                  type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+    delete:
+      tags:
+        - VehiclesUse
+      summary: Removes raw vehicleUse
+      operationId: deleteVehicleUse
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/apiResponse"
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -487,6 +671,25 @@ components:
         id:
           type: number
         nome:
+          type: string
+        user:
+          type: string
+        createdDate:
+          type: string
+    vehicleUse:
+      type: object
+      properties:
+        id:
+          type: number
+        idDriver:
+          type: number
+        idVehicle:
+          type: number
+        dataInicio:
+          type: string
+        dataFim:
+          type: string
+        useReason:
           type: string
         user:
           type: string

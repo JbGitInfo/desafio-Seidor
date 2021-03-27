@@ -3,7 +3,7 @@
 const log = require('../log');
 const constants = require('../utils/constants');
 
-const { UnauthorizedException, NotFoundException } = require('../exceptions');
+const { UnauthorizedException, NotFoundException, UnprocessableEntityException } = require('../exceptions');
 
 module.exports = {
     /**
@@ -26,6 +26,10 @@ module.exports = {
             apiError.code = constants.statusCode.NOT_FOUND.CODE;
             apiError.message = err.message;
             apiError.error = constants.statusCode.NOT_FOUND.TEXT;
+        } else if (err instanceof UnprocessableEntityException) {
+            apiError.code = constants.statusCode.UNPROCESSABLE_ENTITY.CODE;
+            apiError.message = err.message;
+            apiError.error = constants.statusCode.UNPROCESSABLE_ENTITY.TEXT;
         }
         else {
             log.error(err);

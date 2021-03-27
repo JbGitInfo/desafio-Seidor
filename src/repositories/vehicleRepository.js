@@ -7,8 +7,8 @@ module.exports = class VehicleRepository {
 
     /**
      * 
-     * @param {{cor:String,marca:String,user:String,page:Number,limit:Number}} params
-     * @returns {Promise<{totalCount:Number,totalPage:Number, results:[{id:Number,placa:String,cor:String,marca:String,user:String}]}>}
+     * @param {{cor:String,marca:String,user:String}} params
+     * @returns {Promise<{[{id:Number,placa:String,cor:String,marca:String,user:String}]}>}
      */
     async find(params) {
         const optionsFilter = {};
@@ -16,25 +16,16 @@ module.exports = class VehicleRepository {
         if (params.marca) optionsFilter.marca = params.marca;
         if (params.user) optionsFilter.user = params.user;
 
-        const result = await this.#model.paginate(optionsFilter, {
-            page: params.page || 1,
-            limit: params.limit || 10
+        const result = await this.#model.find(optionsFilter);
+        return result.map(item => {
+            return {
+                id: item.id,
+                placa: item.placa,
+                cor: item.cor,
+                marca: item.marca,
+                user: item.user
+            };
         });
-
-        return {
-            totalCount: result.totalDocs,
-            totalPage: result.totalPages,
-            results: result.docs.map(item => {
-                return {
-                    id: item.id,
-                    placa: item.placa,
-                    cor: item.cor,
-                    marca: item.marca,
-                    user: item.user,
-                    createDate: item.createDate
-                }
-            })
-        }
     }
 
     /**
@@ -57,7 +48,7 @@ module.exports = class VehicleRepository {
 
     /**
     * 
-    * @param {{ placa:String,cor:String,marca:String,user:String }} obj 
+    * @param {{ motorista:String,placa:String,cor:String,marca:String,dataInicio:Date,dataFim:Date,useReason:String,user:String }} obj 
     * @returns {Promise<Number>}
     */
     async create(obj) {
@@ -68,7 +59,7 @@ module.exports = class VehicleRepository {
     /**
      * 
      * @param {Number} id 
-     *  @param {{ placa:string,cor:String,marca:String,user:string }} obj 
+     *  @param {{ motorista:String,placa:String,cor:String,marca:String,dataInicio:Date,dataFim:Date,useReason:String,user:String }} obj 
      * @return {Promise<void>}
      */
     async update(id, obj) {

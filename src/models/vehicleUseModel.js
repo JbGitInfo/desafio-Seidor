@@ -2,12 +2,16 @@
 
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
+const DriverModel = require('./driverModel');
+const VehicleModel = require('./vehicleModel');
 
 const schema = new mongoose.Schema({
     id: Number,
-    placa: String,
-    cor: String,
-    marca: String,
+    driver: DriverModel.schema,
+    vehicle: VehicleModel.schema,
+    dataInicio: Date,
+    dataFim: Date,
+    useReason: String,
     user: String,
     createdDate: {
         type: Date,
@@ -21,12 +25,12 @@ const schema = new mongoose.Schema({
 
 autoIncrement.initialize(mongoose.connection);
 schema.plugin(autoIncrement.plugin, {
-    model: 'Vehicle',
+    model: 'VehicleUse',
     field: 'id',
     startAt: 1
 });
 
-const model = mongoose.model('Vehicle', schema);
+const model = mongoose.model('VehicleUse', schema);
 
 module.exports = model;
 
