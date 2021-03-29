@@ -2,15 +2,16 @@
 
 ### Execução
 
-#### Documentação
+- Execute os containers via terminal: 
+    - docker-compose up
+
+#### Acesse a aplicação
 
 link [API SEIDOR VEÍCULO](http://localhost:3000/docs/)
 login: 
     username: seidor
     password: seidor123456
-
 O usuário deverá realizar o login da api para obter o token, o token deverá ser utilizado nos demais recursos.
-
 
 #### Contato
 joaovictor.brasil1992@gmail.com

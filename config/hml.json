@@ -1,0 +1,14 @@
+{
+    "SERVER": {
+        "HOST": "localhost",
+        "PORT": 3000
+    },
+    "DB": {
+        "MONGO": "mongodb://db/seidor?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+    },
+    "USER": {
+        "USERNAME": "seidor",
+        "PASSWORD": "seidor123456",
+        "CERT": "5c9a4b7c-6003-11eb-ae93-0242ac130002"
+    }
+}
