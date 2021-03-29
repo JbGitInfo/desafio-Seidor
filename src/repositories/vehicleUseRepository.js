@@ -35,7 +35,7 @@ module.exports = class VehicleUseRepository {
     /**
      * 
      * @param {Number} id 
-     * @returns {Promise<{[{driver:Object,vehicle:Object,dataInicio:Date,dataFim:Date,useReason:String,user:String}]}>}
+     * @returns {Promise<{[{driver:{id:Number,nome:String,user:String,createdDate:Date,updatedDate:Date},vehicle:{id:Number,placa:String,cor:String,marca:String,user:String,createdDate:Date,updatedDate:Date},dataInicio:Date,dataFim:Date,useReason:String,user:String}]}>}
      */
     async findByID(id) {
         const result = await this.#model.findOne({ id });
@@ -65,14 +65,14 @@ module.exports = class VehicleUseRepository {
     /**
      * 
      * @param {Number} id 
-     *  @param {{ placa:string,cor:String,marca:String,user:string }} obj 
+     *  @param {{driver:{id:Number,nome:String,user:String,createdDate:Date,updatedDate:Date},vehicle:{id:Number,placa:String,cor:String,marca:String,user:String,createdDate:Date,updatedDate:Date},dataInicio:Date,dataFim:Date,useReason:String,user:String}} obj 
      * @return {Promise<void>}
      */
     async update(id, obj) {
         await this.#model.updateOne({ id: id }, obj);
     }
 
-    /**
+    /** 
      * 
      * @param {Number} id 
      * @returns {Promise<void>}
